@@ -1,6 +1,9 @@
+import 'package:bookly_app/core/constant/colors.dart';
 import 'package:bookly_app/core/utils/assets.dart';
+import 'package:bookly_app/features/home/presention/views/home_view.dart';
 import 'package:bookly_app/features/splash/presention/views/widgets/sliding_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -16,13 +19,12 @@ class _SplashViewBodyState extends State<SplashViewBody>
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    sliderAnimation = Tween<Offset>(begin: Offset(0, 2), end: Offset.zero)
-        .animate(animationController);
-    animationController.forward();
-   
+    initSliderSplashView();
+    // single responsapility
+    navigatToHome();
   }
+
+
 
   @override
   void dispose() {
@@ -30,7 +32,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
     animationController.dispose();
   }
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return Column(
       // streach cuz i wana take all width of screen
@@ -42,6 +44,20 @@ class _SplashViewBodyState extends State<SplashViewBody>
         SlidingText(sliderAnimation: sliderAnimation),
       ],
     );
+  } 
+
+  void initSliderSplashView() {
+    animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    sliderAnimation = Tween<Offset>(begin: Offset(0, 2), end: Offset.zero)
+        .animate(animationController);
+    animationController.forward();
+  }
+
+    void navigatToHome() {
+    Future.delayed(const Duration(seconds: 3), () {
+      Get.to(() => const HomeView(),
+          transition: Transition.fade, duration: kTranstionDuration);
+    });
   }
 }
-
